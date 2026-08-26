@@ -196,11 +196,8 @@ I deliberately allowed HTTP publicly because the instance represented an interne
 
 SSH remained restricted to my administrator IP.
 
-### 📸 Evidence 1 — Secure Firewall Baseline
 
-I captured the Security Group inbound rules showing HTTP/80 publicly accessible and SSH/22 restricted to my `/32`.
-
-**Caption:**
+<img width="1599" height="523" alt="image" src="https://github.com/user-attachments/assets/b5b72960-f1aa-41b6-b55c-0483c1b281f9" /> 
 
 > **Figure 1 — SanTechCorps Security Group baseline permits public web traffic while restricting SSH administration to an approved administrator IP.**
 
@@ -223,15 +220,8 @@ The Lambda function could inspect Security Groups generally, but its IAM policy 
 AutoRemediateRemoteAccess=true
 ```
 
-### 📸 Evidence 2 — Protection Tag
+<img width="1362" height="192" alt="image" src="https://github.com/user-attachments/assets/ebb82b3a-48fc-4db7-bcbe-32e3aaafad95" />
 
-I captured the Security Group Tags tab showing:
-
-```text
-AutoRemediateRemoteAccess = true
-```
-
-**Caption:**
 
 > **Figure 2 — Resource tagging explicitly enrolls the SanTechCorps Security Group in automated remote-access remediation.**
 
@@ -265,18 +255,7 @@ I did not attach an IAM role to the instance because the application did not req
 
 This reduced unnecessary permissions on the workload.
 
-### 📸 Evidence 3 — Protected EC2 Workload
-
-I captured the instance details showing:
-
-* instance name;
-* Running state;
-* `t3.micro`;
-* Amazon Linux;
-* public IPv4;
-* attached Security Group.
-
-**Caption:**
+<img width="1612" height="507" alt="image" src="https://github.com/user-attachments/assets/bb805689-23fb-419a-b5c7-54cc79ac9d3c" />
 
 > **Figure 3 — Live Amazon Linux EC2 workload deployed as the SanTechCorps application server protected by the monitored Security Group.**
 
@@ -287,7 +266,7 @@ I captured the instance details showing:
 I connected to the instance using key-based SSH authentication:
 
 ```bash
-ssh -i "santechcorps-lab-key.pem" ec2-user@PUBLIC_IP
+ssh -i "santechcorps-lab-key.pem" ec2-user@16.61.235.191
 ```
 
 I installed Apache:
@@ -310,16 +289,12 @@ EOF
 I validated it through:
 
 ```text
-http://PUBLIC_IP
+http://16.61.235.191
 ```
 
 This established that the Security Group was protecting an actual functioning workload rather than an unattached lab resource.
 
-### 📸 Evidence 4 — Functional Application
-
-I captured the SanTechCorps application page in the browser.
-
-**Caption:**
+<img width="914" height="237" alt="image" src="https://github.com/user-attachments/assets/2f902bf7-c372-42fc-83cc-c57afee8d37a" />
 
 > **Figure 4 — SanTechCorps web application running successfully on the protected Amazon Linux EC2 workload.**
 
@@ -337,15 +312,8 @@ and configured an email subscription.
 
 I confirmed the subscription before continuing with the remediation workflow.
 
-### 📸 Evidence 5 — SNS Configuration
-
-I captured the subscription showing:
-
-```text
-Status: Confirmed
-```
-
-**Caption:**
+<img width="969" height="316" alt="image" src="https://github.com/user-attachments/assets/b0a96ff6-a12a-44e8-ad36-082e38202dad" />
+<img width="1614" height="514" alt="image" src="https://github.com/user-attachments/assets/87579368-4156-4e33-a4d8-ac757dc1cdc6" />
 
 > **Figure 5 — SNS notification channel configured to deliver automated remediation alerts to the SanTechCorps security team.**
 
@@ -394,16 +362,7 @@ WHICH API ACTION WAS USED?
 WHICH RESOURCE WAS MODIFIED?
 ```
 
-### 📸 Evidence 6 — CloudTrail Configuration
-
-I captured:
-
-* trail name;
-* Logging ON;
-* management events enabled;
-* Write activity enabled.
-
-**Caption:**
+<img width="1475" height="449" alt="image" src="https://github.com/user-attachments/assets/c50d947d-387a-4558-aa2c-2c3ef4c850fd" />
 
 > **Figure 6 — CloudTrail write-management event logging provides an auditable record of Security Group configuration changes.**
 
