@@ -400,17 +400,7 @@ containing the ARN of:
 santechcorps-security-alerts
 ```
 
-### 📸 Evidence 7 — Lambda Configuration
-
-I captured:
-
-* Lambda name;
-* Python runtime;
-* memory;
-* timeout;
-* `SNS_TOPIC_ARN`.
-
-**Caption:**
+<img width="1565" height="526" alt="image" src="https://github.com/user-attachments/assets/264e1664-18f0-453a-9e9b-69fbee60df33" />
 
 > **Figure 7 — Lambda remediation function configured with the SNS notification topic required for incident alerting.**
 
@@ -452,7 +442,7 @@ I used the following inline policy:
       "Sid": "RemediateProtectedSecurityGroups",
       "Effect": "Allow",
       "Action": "ec2:RevokeSecurityGroupIngress",
-      "Resource": "arn:aws:ec2:<REGION>:<ACCOUNT_ID>:security-group/*",
+      "Resource": "arn:aws:ec2:eu-west-2:026********:security-group/*",
       "Condition": {
         "StringEquals": {
           "ec2:ResourceTag/AutoRemediateRemoteAccess": "true"
@@ -463,7 +453,7 @@ I used the following inline policy:
       "Sid": "NotifySecurityTeam",
       "Effect": "Allow",
       "Action": "sns:Publish",
-      "Resource": "<SNS_TOPIC_ARN>"
+      "Resource": "arn:aws:sns:eu-west-2:026********:santechcorps-security-alerts"
     }
   ]
 }
@@ -699,21 +689,9 @@ Revoke only dangerous rule
 Notify security
 ```
 
-### 📸 Evidence 9 — Lambda Security Logic
+<img width="1075" height="319" alt="image" src="https://github.com/user-attachments/assets/f607d0f6-d106-42e3-82d7-e0dd026e5b2a" />
 
-I captured the Lambda code showing:
-
-```python
-is_public()
-```
-
-and:
-
-```python
-revoke_security_group_ingress()
-```
-
-**Caption:**
+<img width="1073" height="340" alt="image" src="https://github.com/user-attachments/assets/64ed7355-a002-4a39-b7d8-48b97d6efeea" />
 
 > **Figure 9 — Python remediation logic detects internet-wide SSH/RDP exposure and removes only the offending Security Group rule.**
 
@@ -752,16 +730,7 @@ santechcorps-remediate-public-remote-access
 
 This made the design event-driven rather than dependent on periodic polling.
 
-### 📸 Evidence 10 — EventBridge Detection
-
-I captured:
-
-* rule name;
-* Enabled state;
-* event pattern;
-* Lambda target.
-
-**Caption:**
+<img width="1296" height="562" alt="image" src="https://github.com/user-attachments/assets/feb99b71-f8e1-4e42-b496-7db3021766fd" />
 
 > **Figure 10 — EventBridge monitors CloudTrail for `AuthorizeSecurityGroupIngress` activity and invokes the automated remediation function.**
 
@@ -794,7 +763,7 @@ The existing approved rules were:
 
 ```text
 HTTP 80 → 0.0.0.0/0
-SSH 22 → MY-IP/32
+SSH 22 → 102.**.***.1*0/32
 ```
 
 I deliberately added a second SSH rule:
@@ -817,18 +786,7 @@ SSH 22 → 0.0.0.0/0         🔴 Dangerous
 
 Because the Security Group was attached to the public Amazon Linux EC2 instance and SSH was running, this represented a genuine remote-access exposure.
 
-### 📸 Evidence 11 — Controlled Exposure
-
-I captured the Security Group editor immediately before saving the rule.
-
-The screenshot showed both:
-
-```text
-SSH 22 → MY-IP/32
-SSH 22 → 0.0.0.0/0
-```
-
-**Caption:**
+<img width="1441" height="348" alt="image" src="https://github.com/user-attachments/assets/586dedb8-6da4-4b15-aace-407b163d87e3" />
 
 > **Figure 11 — Controlled SanTechCorps incident simulation introduces internet-wide SSH access to the live EC2 workload while retaining the approved administrator rule.**
 
