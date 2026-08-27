@@ -74,13 +74,11 @@ The approved policy for this workload was:
 The security control therefore needed to distinguish between:
 
 ```text
-Internet-facing application traffic
-              ✅
+Internet-facing application traffic        ✅
 
 and
 
-Internet-facing administrative access
-              🔴
+Internet-facing administrative access      🔴
 ```
 
 The hands-on demonstration used SSH/22 because the protected server ran Amazon Linux.
@@ -148,7 +146,7 @@ The baseline therefore became:
 
 ```text
 HTTP 80 → 0.0.0.0/0       ✅
-SSH  22 → MY-IP/32         ✅
+SSH  22 → MY-IP/32        ✅
 ```
 
 I deliberately allowed HTTP publicly because the instance represented an internet-facing web application.
@@ -725,7 +723,7 @@ TCP 22
 The Security Group temporarily contained:
 
 ```text
-HTTP 80 → 0.0.0.0/0       ✅ Approved
+HTTP 80 → 0.0.0.0/0        ✅ Approved
 
 SSH 22 → MY-IP/32          ✅ Approved
 
@@ -767,7 +765,7 @@ After the automation executed, I refreshed the Security Group.
 The final state was:
 
 ```text
-HTTP 80 → 0.0.0.0/0       ✅ Preserved
+HTTP 80 → 0.0.0.0/0        ✅ Preserved
 
 SSH 22 → MY-IP/32          ✅ Preserved
 
@@ -798,16 +796,13 @@ The resulting security posture was:
 
 ```text
 Public web users
-HTTP/80
-      ✅ Allowed
+HTTP/80       ✅ Allowed
 
 Approved administrator
-SSH/22
-      ✅ Allowed
+SSH/22        ✅ Allowed
 
 Entire internet
-SSH/22
-      ❌ Blocked
+SSH/22        ❌ Blocked
 ```
 
 This demonstrated that automated remediation did not unnecessarily disrupt legitimate access.
@@ -970,15 +965,15 @@ was revoked.
 The final logic therefore behaved as:
 
 ```text
-SSH 22 → 0.0.0.0/0       🔴 REMOVE
+SSH 22 → 0.0.0.0/0        🔴 REMOVE
 
 SSH 22 → ::/0             🔴 REMOVE
 
-RDP 3389 → 0.0.0.0/0     🔴 REMOVE
+RDP 3389 → 0.0.0.0/0      🔴 REMOVE
 
 SSH 22 → Admin-IP/32      ✅ PRESERVE
-
-HTTP 80 → 0.0.0.0/0      ✅ PRESERVE
+ 
+HTTP 80 → 0.0.0.0/0       ✅ PRESERVE
 ```
 
 <img width="1474" height="374" alt="image" src="https://github.com/user-attachments/assets/2e683758-fee4-41eb-a068-05a3ac332c8d" />
