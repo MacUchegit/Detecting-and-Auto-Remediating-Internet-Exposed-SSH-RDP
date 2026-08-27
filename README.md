@@ -1034,6 +1034,7 @@ HTTP 80 → 0.0.0.0/0      ✅ PRESERVE
 ```
 
 <img width="1474" height="374" alt="image" src="https://github.com/user-attachments/assets/2e683758-fee4-41eb-a068-05a3ac332c8d" />
+
 > **Figure 17A — Initial security group configuration**
 
 <img width="1456" height="293" alt="image" src="https://github.com/user-attachments/assets/89b1fa8b-f246-4dc8-b4a2-61aa4d4bfd08" />
