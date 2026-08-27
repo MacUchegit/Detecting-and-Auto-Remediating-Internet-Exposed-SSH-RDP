@@ -47,48 +47,7 @@ Rather than relying on manual detection, I built an automated response pipeline 
 
 The resulting workflow was:
 
-```text
-                  INTERNET
-                      │
-                   HTTP/80
-                      │
-                      ▼
-          ┌──────────────────────┐
-          │ SanTechCorps EC2     │
-          │ Amazon Linux 2023    │
-          │ t3.micro             │
-          └──────────┬───────────┘
-                     │
-               Security Group
-                     │
-       ┌─────────────┴─────────────┐
-       │                           │
-HTTP 80 → 0.0.0.0/0       SSH 22 → Admin-IP/32
-     APPROVED                    APPROVED
-                                     │
-                                     │ Engineer error
-                                     ▼
-                              SSH 22 → 0.0.0.0/0
-                                   EXPOSED
-                                     │
-                                     ▼
-                                CloudTrail
-                                     │
-                                     ▼
-                                EventBridge
-                                     │
-                                     ▼
-                                  Lambda
-                              ┌──────┴──────┐
-                              ▼             ▼
-                        Revoke Rule        SNS
-                              │             │
-                              ▼             ▼
-                       Secure State    Security Email
-                              │
-                              ▼
-                       CloudWatch Logs
-```
+<img width="1921" height="1129" alt="image" src="https://github.com/user-attachments/assets/580ff3ca-d751-413a-9b4c-72f20e555d77" />
 
 The final outcome was:
 
