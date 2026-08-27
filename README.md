@@ -4,8 +4,6 @@
 
 **Company:** SanTechCorps
 
-**Build Time:** ~3 hours
-
 **Workload:** Amazon Linux 2023 on `t3.micro`
 
 **AWS Services:** EC2, Security Groups, CloudTrail, EventBridge, Lambda, IAM, SNS, CloudWatch Logs
@@ -189,23 +187,17 @@ AutoRemediateRemoteAccess=true
 I launched a real EC2 workload using:
 
 ```text
-Name:
-santechcorps-prod-web-01
+Name: santechcorps-prod-web-01
 
-AMI:
-Amazon Linux 2023
+AMI:  Amazon Linux 2023
 
-Instance type:
-t3.micro
+Instance type: t3.micro
 
-Public IPv4:
-Enabled
+Public IPv4: Enabled
 
-Security Group:
-santechcorps-prod-web-sg
+Security Group: santechcorps-prod-web-sg
 
-Storage:
-8 GiB gp3
+Storage: 8 GiB gp3 
 ```
 
 I did not attach an IAM role to the instance because the application did not require AWS API access.
@@ -283,20 +275,15 @@ I configured CloudTrail to record the API activity responsible for Security Grou
 Where an existing suitable trail was already present, it could be reused. Otherwise, I used:
 
 ```text
-Trail:
-santechcorps-management-events
+Trail: santechcorps-management-events
 
-Management events:
-Enabled
+Management events: Enabled
 
-API activity:
-Write
+API activity: Write
 
-Data events:
-Disabled
+Data events: Disabled
 
-Insights:
-Disabled
+Insights: Disabled
 ```
 
 I verified:
@@ -338,11 +325,9 @@ using Python.
 I configured:
 
 ```text
-Memory:
-128 MB
+Memory: 128 MB
 
-Timeout:
-30 seconds
+Timeout: 30 seconds
 ```
 
 I also created the environment variable:
@@ -906,24 +891,19 @@ along with:
 SNS delivered an alert containing contextual incident information including:
 
 ```text
-Severity:
-HIGH
+Severity: HIGH
 
-Security Group:
-santechcorps-prod-web-sg
+Security Group: santechcorps-prod-web-sg
 
-Actor:
-...
+Actor: ...
 
-Source IP:
-...
+Source IP: ...
 
 Removed Rule:
 SSH/22
 0.0.0.0/0
 
-Action:
-Public SSH/RDP access revoked
+Action: Public SSH/RDP access revoked
 ```
 
 The automated remediation handled immediate containment while the alert provided information needed for follow-up investigation.
