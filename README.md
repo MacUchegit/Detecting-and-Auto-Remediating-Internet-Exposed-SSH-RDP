@@ -828,11 +828,7 @@ SSH 22 → 0.0.0.0/0         ❌ Removed
 
 The control therefore removed the **unsafe condition**, rather than disabling SSH entirely.
 
-### 📸 Evidence 12 — Automatic Remediation
-
-I captured the Security Group after remediation.
-
-**Caption:**
+<img width="1591" height="422" alt="image" src="https://github.com/user-attachments/assets/fab3f481-8e49-466e-ad1a-a73301835e62" />
 
 > **Figure 12 — Automated remediation removed internet-wide SSH access while preserving approved administrator and application traffic.**
 
@@ -900,11 +896,7 @@ WHAT API operation was used?
 WHICH resource was affected?
 ```
 
-### 📸 Evidence 13 — Incident Attribution
-
-I captured the relevant CloudTrail event.
-
-**Caption:**
+<img width="1366" height="795" alt="image" src="https://github.com/user-attachments/assets/6a5a6963-a95d-47b6-9ab6-39ca83708c28" />
 
 > **Figure 13 — CloudTrail identifies the actor, source IP, timestamp and API request responsible for exposing SSH to the internet.**
 
@@ -959,11 +951,8 @@ along with:
 "services": ["SSH/22"]
 ```
 
-### 📸 Evidence 15 — Lambda Execution
-
-I captured the CloudWatch log showing the detection and remediation result.
-
-**Caption:**
+<img width="1169" height="504" alt="image" src="https://github.com/user-attachments/assets/d5488a5f-8248-4bf2-8151-b3b153b3beba" />
+<img width="1298" height="325" alt="image" src="https://github.com/user-attachments/assets/6bdcbc0a-5363-43ff-8cdd-80ec37600f05" />
 
 > **Figure 15 — CloudWatch logs confirm that Lambda detected and automatically removed the internet-exposed SSH rule.**
 
@@ -996,11 +985,7 @@ Public SSH/RDP access revoked
 
 The automated remediation handled immediate containment while the alert provided information needed for follow-up investigation.
 
-### 📸 Evidence 16 — SNS Incident Alert
-
-I captured the SNS email and redacted unnecessary personal/account information.
-
-**Caption:**
+<img width="1292" height="560" alt="image" src="https://github.com/user-attachments/assets/beedb04b-9135-471d-92df-4f1f731630ef" />
 
 > **Figure 16 — SNS delivers contextual incident information to the SanTechCorps security team following automated containment.**
 
@@ -1048,17 +1033,12 @@ SSH 22 → Admin-IP/32      ✅ PRESERVE
 HTTP 80 → 0.0.0.0/0      ✅ PRESERVE
 ```
 
-### 📸 Evidence 17 — Final Secure State
+<img width="1474" height="374" alt="image" src="https://github.com/user-attachments/assets/2e683758-fee4-41eb-a068-05a3ac332c8d" />
+> **Figure 17A — Initial security group configuration**
 
-I captured the final inbound Security Group configuration showing:
+<img width="1456" height="293" alt="image" src="https://github.com/user-attachments/assets/89b1fa8b-f246-4dc8-b4a2-61aa4d4bfd08" />
 
-* HTTP/80 publicly accessible;
-* SSH/22 restricted to my `/32`;
-* no internet-wide SSH rule.
-
-**Caption:**
-
-> **Figure 17 — Final security posture demonstrates false-positive reduction by preserving legitimate web and administrator access while preventing unrestricted SSH exposure.**
+> **Figure 17B — Final security posture demonstrates false-positive reduction by preserving legitimate web and administrator access while preventing unrestricted SSH exposure.**
 
 ---
 
