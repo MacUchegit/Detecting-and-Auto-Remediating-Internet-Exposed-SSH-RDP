@@ -717,7 +717,7 @@ SSH 22 → 0.0.0.0/0         🔴 Dangerous
 
 Because the Security Group was attached to the public Amazon Linux EC2 instance and SSH was running, this represented a genuine remote-access exposure.
 
-<img width="1441" height="348" alt="image" src="https://github.com/user-attachments/assets/586dedb8-6da4-4b15-aace-407b163d87e3" />
+<img width="1500" height="362" alt="image" src="https://github.com/user-attachments/assets/290d7b7c-6ae9-4a09-a0e2-26c1189b2b81" />
 
 > **Figure 11 — Controlled SanTechCorps incident simulation introduces internet-wide SSH access to the live EC2 workload while retaining the approved administrator rule.**
 
@@ -759,7 +759,7 @@ SSH 22 → 0.0.0.0/0         ❌ Removed
 
 The control therefore removed the **unsafe condition**, rather than disabling SSH entirely.
 
-<img width="1591" height="422" alt="image" src="https://github.com/user-attachments/assets/fab3f481-8e49-466e-ad1a-a73301835e62" />
+<img width="1500" height="398" alt="image" src="https://github.com/user-attachments/assets/f345fe2a-e7d6-4702-9ffd-3229f0f5b1ce" />
 
 > **Figure 12 — Automated remediation removed internet-wide SSH access while preserving approved administrator and application traffic.**
 
@@ -823,8 +823,7 @@ FROM WHERE?
 WHAT API operation was used?
 WHICH resource was affected?
 ```
-
-<img width="1366" height="795" alt="image" src="https://github.com/user-attachments/assets/6a5a6963-a95d-47b6-9ab6-39ca83708c28" />
+<img width="1450" height="844" alt="image" src="https://github.com/user-attachments/assets/f8a58fb7-7b2b-4f91-8a50-cd3c53055b28" />
 
 > **Figure 13 — CloudTrail identifies the actor, source IP, timestamp and API request responsible for exposing SSH to the internet.**
 
@@ -908,7 +907,7 @@ Action: Public SSH/RDP access revoked
 
 The automated remediation handled immediate containment while the alert provided information needed for follow-up investigation.
 
-<img width="1292" height="560" alt="image" src="https://github.com/user-attachments/assets/beedb04b-9135-471d-92df-4f1f731630ef" />
+<img width="2000" height="867" alt="image" src="https://github.com/user-attachments/assets/f0e861a6-94f6-436a-b340-a07435615e46" />
 
 > **Figure 16 — SNS delivers contextual incident information to the SanTechCorps security team following automated containment.**
 
@@ -956,11 +955,11 @@ SSH 22 → Admin-IP/32      ✅ PRESERVE
 HTTP 80 → 0.0.0.0/0       ✅ PRESERVE
 ```
 
-<img width="1474" height="374" alt="image" src="https://github.com/user-attachments/assets/2e683758-fee4-41eb-a068-05a3ac332c8d" />
+<img width="1500" height="380" alt="image" src="https://github.com/user-attachments/assets/7905b442-1344-4862-984a-8a225260c237" />
 
 > **Figure 17A — Initial security group configuration**
 
-<img width="1456" height="293" alt="image" src="https://github.com/user-attachments/assets/89b1fa8b-f246-4dc8-b4a2-61aa4d4bfd08" />
+<img width="1500" height="302" alt="image" src="https://github.com/user-attachments/assets/b925effa-2428-4afe-a8b2-197c2faaa2e7" />
 
 > **Figure 17B — Final security posture demonstrates false-positive reduction by preserving legitimate web and administrator access while preventing unrestricted SSH exposure.**
 
@@ -1111,163 +1110,3 @@ The project demonstrated practical experience with:
 * incident investigation
 * false-positive reduction
 * cloud security governance
-
----
-
-# 27. Evidence Summary
-
-| Figure | Evidence                       | Purpose                   |
-| -----: | ------------------------------ | ------------------------- |
-|      1 | Secure Security Group baseline | Approved network posture  |
-|      2 | Remediation tag                | Automation scope          |
-|      3 | Running EC2 workload           | Real protected resource   |
-|      4 | Functional application         | Workload validation       |
-|      5 | SNS subscription               | Notification channel      |
-|      6 | CloudTrail configuration       | Audit logging             |
-|      7 | Lambda configuration           | Remediation service       |
-|      8 | IAM policy                     | Least privilege           |
-|      9 | Lambda code                    | Custom detection logic    |
-|     10 | EventBridge rule               | Event-driven detection    |
-|     11 | Public SSH exposure            | Incident simulation       |
-|     12 | Remediated Security Group      | Automated containment     |
-|     13 | CloudTrail authorization event | Incident attribution      |
-|     14 | CloudTrail revoke event        | Response audit trail      |
-|     15 | CloudWatch Lambda logs         | Execution evidence        |
-|     16 | SNS notification               | Human alerting            |
-|     17 | Final secure state             | False-positive validation |
-
-Together, the evidence tells the complete story:
-
-```text
-REAL WORKLOAD
-      ↓
-SECURE BASELINE
-      ↓
-SECURITY MISCONFIGURATION
-      ↓
-DETECTION
-      ↓
-AUTOMATED CONTAINMENT
-      ↓
-AUDIT INVESTIGATION
-      ↓
-SECURITY NOTIFICATION
-      ↓
-VALIDATED SECURE STATE
-```
-
----
-
-# 28. Cost Management and Cleanup
-
-I intentionally kept the architecture small.
-
-The lab did not require:
-
-```text
-NAT Gateway
-Load Balancer
-RDS
-Traffic Mirroring
-Auto Scaling
-```
-
-I used only one small EC2 instance and terminated resources immediately after completing the validation.
-
-After collecting all evidence, I:
-
-1. Terminated `santechcorps-prod-web-01`.
-2. Deleted `santechcorps-detect-public-remote-access`.
-3. Deleted `santechcorps-remediate-public-remote-access`.
-4. Deleted its CloudWatch log group.
-5. Deleted `santechcorps-security-alerts`.
-6. Deleted `santechcorps-prod-web-sg`.
-7. Deleted the temporary EC2 key pair.
-8. Deleted the CloudTrail trail/S3 bucket only if they were created specifically for the lab.
-9. Preserved any pre-existing shared CloudTrail trail or default VPC.
-
-### 📸 Evidence 18 — Resource Cleanup
-
-I captured the terminated EC2 instance or cleaned-up resource state.
-
-**Caption:**
-
-> **Figure 18 — SanTechCorps lab resources were removed after validation to maintain cost-efficient AWS resource management.**
-
----
-
-# 29. Final Project Result
-
-The project demonstrated a complete Cloud Security Engineering lifecycle:
-
-```text
-Real AWS workload
-        ↓
-Secure configuration
-        ↓
-Human configuration error
-        ↓
-CloudTrail visibility
-        ↓
-EventBridge detection
-        ↓
-Lambda decision
-        ↓
-Automated containment
-        ↓
-CloudWatch evidence
-        ↓
-SNS notification
-        ↓
-Incident investigation
-        ↓
-Secure final state
-```
-
-Rather than simply alerting on a dangerous configuration, the control automatically restored the approved security posture.
-
----
-
-# 30. Recruiter-Friendly Project Summary
-
-## Automated Detection & Remediation of Internet-Exposed SSH/RDP in AWS
-
-> **I built an event-driven AWS security guardrail protecting a live Amazon Linux EC2 workload. CloudTrail and EventBridge detected unrestricted administrative access, while a least-privilege Python Lambda automatically revoked dangerous SSH/RDP Security Group rules, preserved approved application and administrator connectivity, recorded remediation evidence in CloudWatch, and alerted the security team through SNS.**
-
----
-
-# 31. CV Bullet
-
-> **Built an event-driven AWS security guardrail that detected internet-exposed SSH/RDP access on a live EC2 workload through CloudTrail and EventBridge, automatically revoked dangerous ingress rules using a least-privilege Python Lambda function, and delivered contextual incident notifications through SNS while preserving approved application and administrator traffic.**
-
----
-
-# 32. Interview Explanation
-
-> **“I deployed a public Amazon Linux EC2 workload representing a SanTechCorps application. Its Security Group allowed HTTP publicly while SSH was restricted to my administrator IP. I simulated a realistic configuration mistake by adding an additional SSH rule allowing TCP/22 from `0.0.0.0/0`, which genuinely exposed SSH on the running workload. CloudTrail recorded the `AuthorizeSecurityGroupIngress` action, and EventBridge invoked my Python Lambda remediation function. The function first verified that the Security Group was tagged for automated remediation, inspected its current rules, identified the unrestricted SSH rule and revoked its exact Security Group Rule ID. It preserved the legitimate `/32` SSH rule and public web access, wrote remediation evidence to CloudWatch Logs and sent an SNS alert containing the actor, source IP and affected Security Group. I then correlated the original authorization event with the automated `RevokeSecurityGroupIngress` event in CloudTrail to validate the complete response workflow.”**
-
----
-
-# 33. Why This Project Stands Out
-
-The architecture remained intentionally simple:
-
-```text
-EC2
- ↓
-Security Group
- ↓
-CloudTrail
- ↓
-EventBridge
- ↓
-Lambda
- ├── Remediation
- └── SNS
-```
-
-But the project solved a realistic security problem and demonstrated:
-
-> **A real workload → a real cloud misconfiguration → automated detection → precise containment → investigation → alerting → validated recovery.**
-
-The value of the project comes from the security engineering decision-making and evidence, not unnecessary architectural complexity.
