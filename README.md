@@ -462,7 +462,7 @@ import os
 ec2 = boto3.client("ec2")
 sns = boto3.client("sns")
 
-SNS_TOPIC_ARN = os.environ["SNS_TOPIC_ARN"]
+SNS_TOPIC_ARN = "arn:aws:sns:eu-west-2:026********:santechcorps-security-alerts"
 
 TAG_KEY = "AutoRemediateRemoteAccess"
 TAG_VALUE = "true"
@@ -503,19 +503,25 @@ def exposed_services(rule):
 
 
 def lambda_handler(event, context):
-
     detail = event.get("detail", {})
 
     if detail.get("eventName") != "AuthorizeSecurityGroupIngress":
         return {"status": "ignored"}
-
-    group_id = (
-        detail.get("requestParameters", {})
-        .get("groupId")
-    )
+    
+    print("Received Event Payload:", json.dumps(event))
+    
+    # Robust multi-path lookup for Group ID (handles console, CLI, and APIs)
+    req_params = detail.get("requestParameters", {})
+    group_id = req_params.get("groupId")
+    
+    if not group_id:
+        # Fallback path if created via the AWS Management Console UI
+        items = req_params.get("ingressRequestSet", {}).get("items", [])
+        if items and isinstance(items, list):
+            group_id = items[0].get("groupId")
 
     if not group_id:
-        raise ValueError("Security Group ID not found.")
+        raise ValueError("Security Group ID could not be parsed from event structure.")
 
     sg = ec2.describe_security_groups(
         GroupIds=[group_id]
@@ -544,7 +550,6 @@ def lambda_handler(event, context):
     dangerous = []
 
     for rule in rules:
-
         if rule.get("IsEgress"):
             continue
 
@@ -568,7 +573,6 @@ def lambda_handler(event, context):
             "status": "no-threat-found",
             "group_id": group_id
         }
-
         print(json.dumps(result))
         return result
 
@@ -610,7 +614,6 @@ def lambda_handler(event, context):
     }
 
     print(json.dumps(result))
-
     return result
 ```
 
