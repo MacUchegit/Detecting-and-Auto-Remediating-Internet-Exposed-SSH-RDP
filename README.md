@@ -467,21 +467,7 @@ SanTechCorpsRemoteAccessRemediationPolicy
 
 This design reduced the blast radius of the automation itself.
 
-### 📸 Evidence 8 — Least-Privilege IAM
-
-I captured the IAM policy showing:
-
-```text
-ec2:RevokeSecurityGroupIngress
-```
-
-and:
-
-```text
-ec2:ResourceTag/AutoRemediateRemoteAccess
-```
-
-**Caption:**
+<img width="1248" height="729" alt="image" src="https://github.com/user-attachments/assets/e29d0243-6bca-45b0-817a-94c69d5bc457" />
 
 > **Figure 8 — Least-privilege IAM policy restricts automated firewall remediation to explicitly tagged Security Groups.**
 
