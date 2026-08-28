@@ -849,6 +849,8 @@ RevokeSecurityGroupIngress
 
 The remediation event was associated with the Lambda execution identity rather than the user who introduced the insecure rule.
 
+<img width="1607" height="314" alt="image" src="https://github.com/user-attachments/assets/888047a1-20da-4c54-bc11-d9939f1d6cac" />
+
 <img width="1447" height="594" alt="image" src="https://github.com/user-attachments/assets/81eef644-467a-48b3-8a20-7ed640995cbf" />
 
 > **Figure 14 — CloudTrail records the automated `RevokeSecurityGroupIngress` action used to restore the approved Security Group configuration.**
