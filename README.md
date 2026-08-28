@@ -700,9 +700,7 @@ SSH 22 → 102.**.***.1*0/32
 I deliberately added a second SSH rule:
 
 ```text
-SSH
-TCP 22
-0.0.0.0/0
+SSH TCP 22 → 0.0.0.0/0
 ```
 
 The Security Group temporarily contained:
